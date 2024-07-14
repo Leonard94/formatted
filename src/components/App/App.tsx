@@ -1,26 +1,28 @@
 import { useState, useRef } from 'react'
+import AceEditor from 'react-ace'
 import { Window } from '../Window/Window'
-import styles from './styles.module.scss'
+import { EditorTheme } from '../Theme/Theme'
 import { Editor } from '../Editor/Editor'
 import { formatJSON } from '../../utils/formatted'
-import 'react-toastify/dist/ReactToastify.css'
 import { ToastManager, ToastContainer } from '../ToastManager/ToastManager'
 import { Modal } from '../Modal/Modal'
 import { ClearNotification } from '../ClearNotification/ClearNotification'
-import AceEditor from 'react-ace'
 import { getCompliments, EAction } from '../../utils/utils'
+import 'react-toastify/dist/ReactToastify.css'
+import styles from './styles.module.scss'
 
 // todo
 // [ ] - Добавление кавычек перед парсингом не только на первом уровне
 // [ ] - Добавить сохранения введенного кода в LS
 // [ ] - Добавить настройки шрифта и тд, что будет сохраняться в localStorage
-// [ ] - Добавить смену темы
-// [ ] - При tab добавлять несколько пробелов
 
 export const App = () => {
   const [value, setValue] = useState('')
   const [isShowModal, setIsShowModal] = useState(false)
   const editorRef = useRef<AceEditor>(null)
+  const [currentTheme, setCurrentTheme] = useState<EditorTheme>(
+    EditorTheme.Github
+  )
 
   const handleChangeInput = (value: string) => {
     setValue(value)
@@ -61,6 +63,10 @@ export const App = () => {
     }
   }
 
+  const handleThemeChange = (newTheme: EditorTheme) => {
+    setCurrentTheme(newTheme)
+  }
+
   return (
     <>
       <div className={styles.container}>
@@ -68,11 +74,14 @@ export const App = () => {
           handleCopyText={handleCopyText}
           handleFormatted={handleFormatted}
           handleClearEditor={() => setIsShowModal(true)}
+          handleThemeChange={handleThemeChange}
+          currentTheme={currentTheme}
         >
           <Editor
             value={value}
             handleChangeInput={handleChangeInput}
             ref={editorRef}
+            theme={currentTheme}
           />
         </Window>
       </div>
@@ -80,6 +89,10 @@ export const App = () => {
         <ClearNotification handleClear={handleClear} />
       </Modal>
       <ToastContainer className='toast-container' />
+      {/* <Theme
+        handleThemeChange={handleThemeChange}
+        currentTheme={currentTheme}
+      /> */}
     </>
   )
 }

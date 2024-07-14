@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const WORDS_TO_UNQUOTE = [
-  'true',
-  'false',
-  'null',
-  'undefined',
-  'boolean',
-  'int',
-  'string',
-]
+// const WORDS_TO_UNQUOTE = [
+//   'true',
+//   'false',
+//   'null',
+//   'undefined',
+//   'boolean',
+//   'int',
+//   'string',
+// ]
 
 const addQuotesToWords = (json: string): string => {
   return (
@@ -33,7 +33,6 @@ export const formatJSON = (value: string) => {
       ) // Удаляем кавычки вокруг дат ISO 8601
 
     const quotedValue = addQuotesToWords(correctedJSON)
-    console.log('quotedValue', quotedValue)
 
     // Парсим JSON
     const parsedValue = JSON.parse(quotedValue)

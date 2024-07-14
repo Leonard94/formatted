@@ -1,10 +1,13 @@
 import styles from './styles.module.scss'
+import { Theme, EditorTheme } from '../Theme/Theme'
 
 type TProps = {
   children: JSX.Element
   handleCopyText: () => void
   handleFormatted: () => void
   handleClearEditor: () => void
+  handleThemeChange: (theme: EditorTheme) => void
+  currentTheme: EditorTheme
 }
 
 export const Window: React.FC<TProps> = ({
@@ -12,6 +15,8 @@ export const Window: React.FC<TProps> = ({
   handleCopyText,
   handleFormatted,
   handleClearEditor,
+  handleThemeChange,
+  currentTheme,
 }) => {
   return (
     <div className={styles.window}>
@@ -31,7 +36,10 @@ export const Window: React.FC<TProps> = ({
               d='M0 64C0 28.65 28.65 0 64 0H224V128C224 145.7 238.3 160 256 160H384V448C384 483.3 355.3 512 320 512H64C28.65 512 0 483.3 0 448V64zM256 128V0L384 128H256z'
             ></path>
           </svg>
-          CreatedByLeonard.tsx
+          <Theme
+            handleThemeChange={handleThemeChange}
+            currentTheme={currentTheme}
+          />
         </div>
         <div className={styles.controls}>
           <span onClick={handleFormatted}>F</span>
