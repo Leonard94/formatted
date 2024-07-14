@@ -25,9 +25,10 @@ export const Editor = React.forwardRef<AceEditor, EditorProps>(
         editorProps={{ $blockScrolling: true }}
         placeholder='Для твоего JSONa'
         width='100%'
-        height='400px'
+        height='65vh'
         enableBasicAutocompletion
         enableLiveAutocompletion
+        highlightActiveLine
       />
     )
   }

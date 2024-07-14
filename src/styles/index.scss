@@ -1,8 +1,24 @@
 @import './reset.scss';
 
+html {
+  height: 100%;
+}
+
 body {
   font-family: Montserrat, Arial, sans-serif;
   line-height: 140%;
+
+  height: 100vh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
 }
 
 .app {

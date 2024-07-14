@@ -39,13 +39,13 @@ export const formatJSON = (value: string) => {
     const parsedValue = JSON.parse(quotedValue)
 
     // Форматируем JSON
-    let formattedJSON = JSON.stringify(parsedValue, null, 2)
+    const formattedJSON = JSON.stringify(parsedValue, null, 2)
 
     // Удаляем кавычки у специальных слов
-    WORDS_TO_UNQUOTE.forEach((word) => {
-      const regex = new RegExp(`"(${word})"`, 'g')
-      formattedJSON = formattedJSON.replace(regex, '$1')
-    })
+    // WORDS_TO_UNQUOTE.forEach((word) => {
+    //   const regex = new RegExp(`"(${word})"`, 'g')
+    //   formattedJSON = formattedJSON.replace(regex, '$1')
+    // })
 
     return formattedJSON
   } catch (error) {
