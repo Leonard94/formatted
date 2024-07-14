@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import AceEditor from 'react-ace'
 import { Window } from '../Window/Window'
+import { Settings } from '../Settings/Settings'
 import { EditorTheme } from '../Theme/Theme'
 import { Editor } from '../Editor/Editor'
 import { formatJSON } from '../../utils/formatted'
@@ -10,6 +11,8 @@ import { ClearNotification } from '../ClearNotification/ClearNotification'
 import { getCompliments, EAction } from '../../utils/utils'
 import 'react-toastify/dist/ReactToastify.css'
 import styles from './styles.module.scss'
+import { TTab } from '../Settings/Settings'
+import { IconSettings } from '../../icons/IconSettings'
 
 // todo
 // [ ] - Добавление кавычек перед парсингом не только на первом уровне
@@ -18,11 +21,14 @@ import styles from './styles.module.scss'
 
 export const App = () => {
   const [value, setValue] = useState('')
-  const [isShowModal, setIsShowModal] = useState(false)
-  const editorRef = useRef<AceEditor>(null)
+  const [isShowModalClear, setIsShowModalClear] = useState(false)
+  const [isShowModalSettings, setIsShowModalSettings] = useState(false)
+  const [fzValue, setFzValue] = useState<number>(14)
+  const [tabValue, setTabValue] = useState<TTab>(2)
   const [currentTheme, setCurrentTheme] = useState<EditorTheme>(
     EditorTheme.Github
   )
+  const editorRef = useRef<AceEditor>(null)
 
   const handleChangeInput = (value: string) => {
     setValue(value)
@@ -44,7 +50,7 @@ export const App = () => {
       setValue('')
     }
 
-    setIsShowModal(false)
+    setIsShowModalClear(false)
   }
 
   const handleCopyText = () => {
@@ -70,10 +76,16 @@ export const App = () => {
   return (
     <>
       <div className={styles.container}>
+        <button
+          className={styles.settings}
+          onClick={() => setIsShowModalSettings(true)}
+        >
+          Настроим?
+        </button>
         <Window
           handleCopyText={handleCopyText}
           handleFormatted={handleFormatted}
-          handleClearEditor={() => setIsShowModal(true)}
+          handleClearEditor={() => setIsShowModalClear(true)}
           handleThemeChange={handleThemeChange}
           currentTheme={currentTheme}
         >
@@ -82,17 +94,29 @@ export const App = () => {
             handleChangeInput={handleChangeInput}
             ref={editorRef}
             theme={currentTheme}
+            fzValue={fzValue}
+            tabValue={tabValue}
           />
         </Window>
       </div>
-      <Modal isOpen={isShowModal} onClose={() => setIsShowModal(false)}>
+      <Modal
+        isOpen={isShowModalClear}
+        onClose={() => setIsShowModalClear(false)}
+      >
         <ClearNotification handleClear={handleClear} />
       </Modal>
+      <Modal
+        isOpen={isShowModalSettings}
+        onClose={() => setIsShowModalSettings(false)}
+      >
+        <Settings
+          tabValue={tabValue}
+          fzValue={fzValue}
+          onTabChange={(value) => setTabValue(value)}
+          onFzChange={(value) => setFzValue(value)}
+        />
+      </Modal>
       <ToastContainer className='toast-container' />
-      {/* <Theme
-        handleThemeChange={handleThemeChange}
-        currentTheme={currentTheme}
-      /> */}
     </>
   )
 }

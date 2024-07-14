@@ -1,5 +1,6 @@
 import React from 'react'
 import { EditorTheme } from '../Theme/Theme'
+import { TTab } from '../Settings/Settings'
 import AceEditor from 'react-ace'
 import 'ace-builds/src-noconflict/mode-json'
 import 'ace-builds/src-noconflict/theme-github'
@@ -18,10 +19,13 @@ interface EditorProps {
   value: string
   handleChangeInput: (value: string) => void
   theme: EditorTheme
+  fzValue: number
+  tabValue: TTab
 }
 
 export const Editor = React.forwardRef<AceEditor, EditorProps>(
-  ({ value, handleChangeInput, theme }, ref) => {
+  ({ value, handleChangeInput, theme, fzValue, tabValue }, ref) => {
+    console.log(tabValue)
     return (
       <AceEditor
         ref={ref}
@@ -32,7 +36,8 @@ export const Editor = React.forwardRef<AceEditor, EditorProps>(
         name='json-editor'
         setOptions={{
           showLineNumbers: true,
-          tabSize: 4,
+          tabSize: tabValue,
+          fontSize: fzValue,
         }}
         editorProps={{ $blockScrolling: true }}
         placeholder='Для твоего JSONa'
