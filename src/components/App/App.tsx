@@ -8,19 +8,14 @@ import { ToastManager, ToastContainer } from '../ToastManager/ToastManager'
 import { Modal } from '../Modal/Modal'
 import { ClearNotification } from '../ClearNotification/ClearNotification'
 import AceEditor from 'react-ace'
+import { getCompliments, EAction } from '../../utils/utils'
 
 // todo
-// [х] - Добавить копирование по кнопке
-// [х] - Редактирование и output в одном месте
-// [х] - По крестику очищать всё
-// [x] - Увеличить область textarea а то при клике на область курсор не становится
-// [ ] - Добавить подсветку кода
 // [ ] - Добавление кавычек перед парсингом не только на первом уровне
 // [ ] - Добавить сохранения введенного кода в LS
 // [ ] - Добавить настройки шрифта и тд, что будет сохраняться в localStorage
 // [ ] - Добавить смену темы
 // [ ] - При tab добавлять несколько пробелов
-// [ ] - При установке курсора подсвечивать строку
 
 export const App = () => {
   const [value, setValue] = useState('')
@@ -37,6 +32,7 @@ export const App = () => {
     if (result instanceof Error) {
       ToastManager.Error('Ошибка: ' + result.message)
     } else {
+      ToastManager.Success(getCompliments(EAction.Format))
       setValue(result)
     }
   }
@@ -57,7 +53,7 @@ export const App = () => {
       navigator.clipboard
         .writeText(textToCopy)
         .then(() => {
-          ToastManager.Success('Текст скопирован!')
+          ToastManager.Success(getCompliments(EAction.Copy))
         })
         .catch((error) => {
           ToastManager.Error('Ошибка при копировании: ' + error)
