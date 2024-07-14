@@ -23,7 +23,7 @@ export const App = () => {
   const [isShowModalClear, setIsShowModalClear] = useState(false)
   const [isShowModalSettings, setIsShowModalSettings] = useState(false)
   const [fzValue, setFzValue] = useState<number>(14)
-  const [tabValue, setTabValue] = useState<TTab>(2)
+  const [tabValue, setTabValue] = useState<TTab>(4)
   const [currentTheme, setCurrentTheme] = useState<EditorTheme>(
     EditorTheme.Github
   )
