@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import AceEditor from 'react-ace'
 import { Window } from '../Window/Window'
 import { Settings } from '../Settings/Settings'
@@ -12,6 +12,7 @@ import { getCompliments, EAction } from '../../utils/utils'
 import 'react-toastify/dist/ReactToastify.css'
 import styles from './styles.module.scss'
 import { TTab } from '../Settings/Settings'
+import { SplashScreen } from '../SplashScreen/SplashScreen'
 
 // todo
 // [ ] - Добавление кавычек перед парсингом не только на первом уровне
@@ -19,6 +20,7 @@ import { TTab } from '../Settings/Settings'
 // [ ] - Добавить настройки шрифта и тд, что будет сохраняться в localStorage
 
 export const App = () => {
+  const [showSplash, setShowSplash] = useState(true)
   const [value, setValue] = useState('')
   const [isShowModalClear, setIsShowModalClear] = useState(false)
   const [isShowModalSettings, setIsShowModalSettings] = useState(false)
@@ -72,50 +74,66 @@ export const App = () => {
     setCurrentTheme(newTheme)
   }
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false)
+    }, 3000)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
+
   return (
     <>
-      <div className={styles.container}>
-        <button
-          className={styles.settings}
-          onClick={() => setIsShowModalSettings(true)}
-        >
-          Настроим?
-        </button>
-        <Window
-          handleCopyText={handleCopyText}
-          handleFormatted={handleFormatted}
-          handleClearEditor={() => setIsShowModalClear(true)}
-          handleThemeChange={handleThemeChange}
-          currentTheme={currentTheme}
-        >
-          <Editor
-            value={value}
-            handleChangeInput={handleChangeInput}
-            ref={editorRef}
-            theme={currentTheme}
-            fzValue={fzValue}
-            tabValue={tabValue}
-          />
-        </Window>
-      </div>
-      <Modal
-        isOpen={isShowModalClear}
-        onClose={() => setIsShowModalClear(false)}
-      >
-        <ClearNotification handleClear={handleClear} />
-      </Modal>
-      <Modal
-        isOpen={isShowModalSettings}
-        onClose={() => setIsShowModalSettings(false)}
-      >
-        <Settings
-          tabValue={tabValue}
-          fzValue={fzValue}
-          onTabChange={(value) => setTabValue(value)}
-          onFzChange={(value) => setFzValue(value)}
-        />
-      </Modal>
-      <ToastContainer className='toast-container' />
+      {showSplash ? (
+        <SplashScreen />
+      ) : (
+        <>
+          <div className={styles.container}>
+            <button
+              className={styles.settings}
+              onClick={() => setIsShowModalSettings(true)}
+            >
+              Настроим?
+            </button>
+            <Window
+              handleCopyText={handleCopyText}
+              handleFormatted={handleFormatted}
+              handleClearEditor={() => setIsShowModalClear(true)}
+              handleThemeChange={handleThemeChange}
+              currentTheme={currentTheme}
+            >
+              <Editor
+                value={value}
+                handleChangeInput={handleChangeInput}
+                ref={editorRef}
+                theme={currentTheme}
+                fzValue={fzValue}
+                tabValue={tabValue}
+              />
+            </Window>
+          </div>
+          <Modal
+            isOpen={isShowModalClear}
+            onClose={() => setIsShowModalClear(false)}
+          >
+            <ClearNotification handleClear={handleClear} />
+          </Modal>
+          <Modal
+            isOpen={isShowModalSettings}
+            onClose={() => setIsShowModalSettings(false)}
+          >
+            <Settings
+              tabValue={tabValue}
+              fzValue={fzValue}
+              onTabChange={(value) => setTabValue(value)}
+              onFzChange={(value) => setFzValue(value)}
+            />
+          </Modal>
+          <ToastContainer className='toast-container' />
+        </>
+      )}
     </>
   )
 }

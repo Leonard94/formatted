@@ -1,0 +1,47 @@
+.splash {
+  background: #8a2be2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  font-size: 80px;
+  line-height: 140%;
+  color: white;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+
+  span {
+    font-weight: 600;
+  }
+}
+
+.name_wrapper {
+  position: relative;
+  display: inline-block;
+  height: 1.4em;
+  min-width: 340px; // Подстройте под самое длинное имя
+  margin: 0 10px;
+  overflow: hidden;
+}
+
+.name_wrapper span {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.flyOut {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.flyIn {
+  transform: translateY(0);
+  opacity: 1;
+}
