@@ -5,6 +5,8 @@ import { Editor } from '../Editor/Editor'
 import { formatJSON } from '../../utils/formatted'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastManager, ToastContainer } from '../ToastManager/ToastManager'
+import { Modal } from '../Modal/Modal'
+import { ClearNotification } from '../ClearNotification/ClearNotification'
 
 // todo
 // [х] - Добавить копирование по кнопке
@@ -20,6 +22,7 @@ import { ToastManager, ToastContainer } from '../ToastManager/ToastManager'
 export const App = () => {
   const [value, setValue] = useState('')
   const [error, setError] = useState<null | string>(null)
+  const [isShowModal, setIsShowModal] = useState(false)
   const editorRef = useRef<HTMLTextAreaElement>(null)
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -40,6 +43,19 @@ export const App = () => {
       setError(null)
       setValue(result)
     }
+  }
+
+  const handleClearEditor = () => {
+    setIsShowModal(true)
+  }
+
+  const handleClear = (wantClear: boolean) => {
+    if (wantClear) {
+      setValue('')
+      setError('')
+    }
+
+    setIsShowModal(false)
   }
 
   const handleCopyText = () => {
@@ -64,6 +80,7 @@ export const App = () => {
         <Window
           handleCopyText={handleCopyText}
           handleFormatted={handleFormatted}
+          handleClearEditor={handleClearEditor}
         >
           <Editor
             value={value}
@@ -72,6 +89,10 @@ export const App = () => {
           />
         </Window>
       </div>
+      <Modal isOpen={isShowModal} onClose={() => setIsShowModal(false)}>
+        <ClearNotification handleClear={handleClear} />
+      </Modal>
+
       <ToastContainer className='toast-container' />
     </>
   )

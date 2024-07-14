@@ -4,12 +4,14 @@ type TProps = {
   children: JSX.Element
   handleCopyText: () => void
   handleFormatted: () => void
+  handleClearEditor: () => void
 }
 
 export const Window: React.FC<TProps> = ({
   children,
   handleCopyText,
   handleFormatted,
+  handleClearEditor,
 }) => {
   return (
     <div className={styles.window}>
@@ -49,7 +51,7 @@ export const Window: React.FC<TProps> = ({
               ></path>
             </svg>
           </span>
-          <span>
+          <span onClick={handleClearEditor}>
             <svg
               aria-hidden='true'
               focusable='false'
