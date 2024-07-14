@@ -25,7 +25,6 @@ interface EditorProps {
 
 export const Editor = React.forwardRef<AceEditor, EditorProps>(
   ({ value, handleChangeInput, theme, fzValue, tabValue }, ref) => {
-    console.log(tabValue)
     return (
       <AceEditor
         ref={ref}

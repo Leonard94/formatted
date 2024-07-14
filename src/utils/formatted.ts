@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { TTab } from '../components/Settings/Settings'
 // const WORDS_TO_UNQUOTE = [
 //   'true',
 //   'false',
@@ -19,9 +21,8 @@ const addQuotesToWords = (json: string): string => {
   )
 }
 
-export const formatJSON = (value: string) => {
+export const formatJSON = (value: string, tabValue: TTab) => {
   try {
-    // Предварительная обработка JSON
     const correctedJSON = value
       .replace(/'/g, '"') // Заменяем одинарные кавычки на двойные
       .replace(/,\s*([}\]])/g, '$1') // Удаляем запятые перед закрывающими скобками
@@ -38,7 +39,7 @@ export const formatJSON = (value: string) => {
     const parsedValue = JSON.parse(quotedValue)
 
     // Форматируем JSON
-    const formattedJSON = JSON.stringify(parsedValue, null, 2)
+    const formattedJSON = JSON.stringify(parsedValue, null, tabValue)
 
     // Удаляем кавычки у специальных слов
     // WORDS_TO_UNQUOTE.forEach((word) => {

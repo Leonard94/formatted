@@ -34,7 +34,7 @@ export const App = () => {
   }
 
   const handleFormatted = () => {
-    const result = formatJSON(value)
+    const result = formatJSON(value, tabValue)
 
     if (result instanceof Error) {
       ToastManager.Error('Ошибка: ' + result.message)

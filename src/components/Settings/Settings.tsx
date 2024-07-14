@@ -24,7 +24,6 @@ export const Settings: React.FC<TProps> = ({
   onTabChange,
   onFzChange,
 }) => {
-  console.log('tabValue', tabValue)
   return (
     <div>
       <div className={styles.title}>Давай выберем настройки</div>
