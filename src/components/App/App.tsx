@@ -12,7 +12,6 @@ import { getCompliments, EAction } from '../../utils/utils'
 import 'react-toastify/dist/ReactToastify.css'
 import styles from './styles.module.scss'
 import { TTab } from '../Settings/Settings'
-import { IconSettings } from '../../icons/IconSettings'
 
 // todo
 // [ ] - Добавление кавычек перед парсингом не только на первом уровне
