@@ -1,0 +1,50 @@
+$width: 12px;
+$gap: 2px;
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  &__checkbox {
+    position: absolute;
+    visibility: hidden;
+
+    &:checked ~ {
+      .toggle__switch {
+        background: #8a2be2;
+
+        &:before {
+          content: "";
+          left: 50%;
+        }
+      }
+    }
+  }
+
+  &__label {
+    margin-left: 10px;
+  }
+
+  &__switch {
+    position: relative;
+    display: inline-block;
+    width: $width * 2 + ($gap * 2);
+    height: $width + ($gap * 2);
+    border-radius: $width + ($gap * 2);
+    background: #dddddd;
+    transition: background 0.25s;
+
+    &:before {
+      position: absolute;
+      content: "";
+      top: $gap;
+      left: $gap;
+      width: $width;
+      height: $width;
+      background: #ffffff;
+      border-radius: 50%;
+      transition: left 0.25s;
+    }
+  }
+}
