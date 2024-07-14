@@ -18,6 +18,8 @@ import { ClearNotification } from '../ClearNotification/ClearNotification'
 // [ ] - Добавить сохранения введенного кода в LS
 // [ ] - Добавить настройки шрифта и тд, что будет сохраняться в localStorage
 // [ ] - Добавить смену темы
+// [ ] - При tab добавлять несколько пробелов
+// [ ] - При установке курсора подсвечивать строку
 
 export const App = () => {
   const [value, setValue] = useState('')
