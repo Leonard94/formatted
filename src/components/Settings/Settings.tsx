@@ -15,7 +15,7 @@ const FONTS_SIZE_MAX = 20
 
 const FONT_SIZES = Array.from(
   { length: FONTS_SIZE_MAX - FONTS_SIZE_MIN + 1 },
-  (v, i) => i + FONTS_SIZE_MIN
+  (_, i) => i + FONTS_SIZE_MIN
 )
 
 export const Settings: React.FC<TProps> = ({
