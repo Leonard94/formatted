@@ -1,0 +1,44 @@
+.toast-container {
+  // position: fixed !important;
+  // top: 16px !important;
+  // right: 16px !important;
+  // z-index: 9999;
+
+  .Toastify__toast--success {
+    svg {
+      fill: #8a2be2;
+    }
+    .Toastify__progress-bar {
+      background: #8a2be2;
+    }
+
+    .Toastify__progress-bar--bg {
+      background: #8a2be2;
+    }
+
+    .Toastify__close-button {
+      &:hover {
+        background: none;
+      }
+    }
+  }
+
+  .Toastify__toast--error {
+    svg {
+      fill: #e22b90;
+    }
+    .Toastify__progress-bar {
+      background: #e22b90;
+    }
+
+    .Toastify__progress-bar--bg {
+      background: #e22b90;
+    }
+
+    .Toastify__close-button {
+      &:hover {
+        background: none;
+      }
+    }
+  }
+}

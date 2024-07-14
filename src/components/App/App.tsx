@@ -3,8 +3,8 @@ import { Window } from '../Window/Window'
 import styles from './styles.module.scss'
 import { Editor } from '../Editor/Editor'
 import { formatJSON } from '../../utils/formatted'
-import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { ToastManager, ToastContainer } from '../ToastManager/ToastManager'
 
 // todo
 // [х] - Добавить копирование по кнопке
@@ -35,7 +35,7 @@ export const App = () => {
 
     if (result instanceof Error) {
       setError(result.message)
-      toast.error('Ошибка: ' + result.message)
+      ToastManager.Error('Ошибка: ' + result.message)
     } else {
       setError(null)
       setValue(result)
@@ -50,18 +50,10 @@ export const App = () => {
       navigator.clipboard
         .writeText(textToCopy)
         .then(() => {
-          toast.success('Текст скопирован!', {
-            position: 'top-right',
-            autoClose: 1000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-          })
+          ToastManager.Success('Текст скопирован!')
         })
-        .catch((err) => {
-          console.error('Ошибка при копировании: ', err)
-          toast.error('Ошибка при копировании')
+        .catch((error) => {
+          ToastManager.Error('Ошибка при копировани: ' + error)
         })
     }
   }
