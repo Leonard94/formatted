@@ -1,31 +1,34 @@
 import React from 'react'
-import styles from './styles.module.scss'
-import { getLineNumbers } from '../../utils/utils'
+import AceEditor from 'react-ace'
+import 'ace-builds/src-noconflict/mode-json'
+import 'ace-builds/src-noconflict/theme-github'
 
 interface EditorProps {
   value: string
-  handleChangeInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
+  handleChangeInput: (value: string) => void
 }
 
-export const Editor = React.forwardRef<HTMLTextAreaElement, EditorProps>(
+export const Editor = React.forwardRef<AceEditor, EditorProps>(
   ({ value, handleChangeInput }, ref) => {
-    const lines = getLineNumbers(value).map((_, index) => (
-      <div key={index} className={styles.lineNumber}>
-        {index + 1}
-      </div>
-    ))
-
     return (
-      <div className={styles.editor}>
-        <div className={styles.line_numbers}>{lines}</div>
-        <textarea
-          ref={ref}
-          value={value}
-          onChange={handleChangeInput}
-          placeholder='Для твоего JSONa'
-          className={styles.editor}
-        />
-      </div>
+      <AceEditor
+        ref={ref}
+        mode='json'
+        theme='github'
+        onChange={handleChangeInput}
+        value={value}
+        name='json-editor'
+        setOptions={{
+          showLineNumbers: true,
+          tabSize: 4,
+        }}
+        editorProps={{ $blockScrolling: true }}
+        placeholder='Для твоего JSONa'
+        width='100%'
+        height='400px'
+        enableBasicAutocompletion
+        enableLiveAutocompletion
+      />
     )
   }
 )

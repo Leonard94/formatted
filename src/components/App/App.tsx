@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { ToastManager, ToastContainer } from '../ToastManager/ToastManager'
 import { Modal } from '../Modal/Modal'
 import { ClearNotification } from '../ClearNotification/ClearNotification'
+import AceEditor from 'react-ace'
 
 // todo
 // [х] - Добавить копирование по кнопке
@@ -23,26 +24,19 @@ import { ClearNotification } from '../ClearNotification/ClearNotification'
 
 export const App = () => {
   const [value, setValue] = useState('')
-  const [error, setError] = useState<null | string>(null)
   const [isShowModal, setIsShowModal] = useState(false)
-  const editorRef = useRef<HTMLTextAreaElement>(null)
+  const editorRef = useRef<AceEditor>(null)
 
-  const handleChangeInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value)
-
-    if (error) {
-      setError(null)
-    }
+  const handleChangeInput = (value: string) => {
+    setValue(value)
   }
 
   const handleFormatted = () => {
     const result = formatJSON(value)
 
     if (result instanceof Error) {
-      setError(result.message)
       ToastManager.Error('Ошибка: ' + result.message)
     } else {
-      setError(null)
       setValue(result)
     }
   }
@@ -50,7 +44,6 @@ export const App = () => {
   const handleClear = (wantClear: boolean) => {
     if (wantClear) {
       setValue('')
-      setError('')
     }
 
     setIsShowModal(false)
@@ -58,8 +51,8 @@ export const App = () => {
 
   const handleCopyText = () => {
     if (editorRef.current) {
-      const textArea = editorRef.current
-      const textToCopy = textArea.value
+      const editor = editorRef.current.editor
+      const textToCopy = editor.getValue()
 
       navigator.clipboard
         .writeText(textToCopy)
@@ -67,7 +60,7 @@ export const App = () => {
           ToastManager.Success('Текст скопирован!')
         })
         .catch((error) => {
-          ToastManager.Error('Ошибка при копировани: ' + error)
+          ToastManager.Error('Ошибка при копировании: ' + error)
         })
     }
   }
@@ -90,7 +83,6 @@ export const App = () => {
       <Modal isOpen={isShowModal} onClose={() => setIsShowModal(false)}>
         <ClearNotification handleClear={handleClear} />
       </Modal>
-
       <ToastContainer className='toast-container' />
     </>
   )
