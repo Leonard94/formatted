@@ -11,8 +11,8 @@ import { ClearNotification } from '../ClearNotification/ClearNotification'
 // todo
 // [х] - Добавить копирование по кнопке
 // [х] - Редактирование и output в одном месте
-// [ ] - По крестику очищать всё
-// [ ] - Увеличить область textarea а то при клике на область курсор не становится
+// [х] - По крестику очищать всё
+// [x] - Увеличить область textarea а то при клике на область курсор не становится
 // [ ] - Добавить подсветку кода
 // [ ] - Добавление кавычек перед парсингом не только на первом уровне
 // [ ] - Добавить сохранения введенного кода в LS
@@ -43,10 +43,6 @@ export const App = () => {
       setError(null)
       setValue(result)
     }
-  }
-
-  const handleClearEditor = () => {
-    setIsShowModal(true)
   }
 
   const handleClear = (wantClear: boolean) => {
@@ -80,7 +76,7 @@ export const App = () => {
         <Window
           handleCopyText={handleCopyText}
           handleFormatted={handleFormatted}
-          handleClearEditor={handleClearEditor}
+          handleClearEditor={() => setIsShowModal(true)}
         >
           <Editor
             value={value}
