@@ -1,3 +1,5 @@
 ## 🚀 Затестить:
 
-[Клик]([http://middle.vladkoleda.ru/](https://leonard94.github.io/formatted/))
+[Клик](https://leonard94.github.io/formatted/)
+<br>
+Или ручками впиши: leonard94.github.io/formatted/
