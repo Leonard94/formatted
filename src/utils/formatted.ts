@@ -24,7 +24,6 @@ export const formatToJson = (value: string, valueTab: TTab): string | Error => {
   try {
     // Очищаем и подготавливаем входную строку
     const cleanedValue = cleanJsonString(value);
-    console.log('cleanedValue =>>', cleanedValue)
 
     // Пытаемся распарсить очищенный JSON
     const parsedValue = JSON.parse(cleanedValue);
@@ -36,4 +35,26 @@ export const formatToJson = (value: string, valueTab: TTab): string | Error => {
   } catch (e) {
     return new Error('Invalid input: ' + (e as Error).message);
   }
+}
+
+const WORDS_TO_UNQUOTE = [
+  'true',
+  'false',
+  'null',
+  'undefined',
+  'boolean',
+  'bool',
+  'int',
+  'string',
+]
+
+export const handleRemoveQuoteDataTypes = (value: string): string => {
+  let formattedJSON = value
+
+  WORDS_TO_UNQUOTE.forEach((word) => {
+    const regex = new RegExp(`"(${word})"`, 'g')
+    formattedJSON = formattedJSON.replace(regex, '$1')
+  })
+
+  return formattedJSON
 }

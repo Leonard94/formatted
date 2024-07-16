@@ -4,7 +4,7 @@ import { Window } from '../Window/Window'
 import { Settings } from '../Settings/Settings'
 import { EditorTheme } from '../Theme/Theme'
 import { Editor } from '../Editor/Editor'
-import { formatToJson } from '../../utils/formatted'
+import { formatToJson, handleRemoveQuoteDataTypes } from '../../utils/formatted'
 import { ToastManager, ToastContainer } from '../ToastManager/ToastManager'
 import { Modal } from '../Modal/Modal'
 import { ClearNotification } from '../ClearNotification/ClearNotification'
@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import styles from './styles.module.scss'
 import { TTab } from '../Settings/Settings'
 import { SplashScreen } from '../SplashScreen/SplashScreen'
+import { Toggle } from '../Toggle/Toggle'
 
 // todo
 // [ ] - Добавление кавычек перед парсингом не только на первом уровне
@@ -26,6 +27,7 @@ export const App = () => {
   const [isShowModalSettings, setIsShowModalSettings] = useState(false)
   const [fzValue, setFzValue] = useState<number>(12)
   const [tabValue, setTabValue] = useState<TTab>(4)
+  const [needUnquoteDataTypes, setNeedUnquoteDataTypes] = useState(false)
   const [currentTheme, setCurrentTheme] = useState<EditorTheme>(
     EditorTheme.Github
   )
@@ -36,13 +38,17 @@ export const App = () => {
   }
 
   const handleFormatted = () => {
+    if (!value) {
+      return
+    }
+
     const result = formatToJson(value, tabValue)
 
     if (result instanceof Error) {
       ToastManager.Error('Ошибка: ' + result.message)
     } else {
       ToastManager.Success(getCompliments(EAction.Format))
-      setValue(result)
+      setValue(needUnquoteDataTypes ? handleRemoveQuoteDataTypes(result) : result)
     }
   }
 
@@ -113,6 +119,9 @@ export const App = () => {
                 tabValue={tabValue}
               />
             </Window>
+            <Toggle isChecked={needUnquoteDataTypes} handleChecked={() =>
+              setNeedUnquoteDataTypes(!needUnquoteDataTypes)
+            } />
           </div>
           <Modal
             isOpen={isShowModalClear}
