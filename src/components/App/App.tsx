@@ -4,7 +4,7 @@ import { Window } from '../Window/Window'
 import { Settings } from '../Settings/Settings'
 import { EditorTheme } from '../Theme/Theme'
 import { Editor } from '../Editor/Editor'
-import { formatJSON } from '../../utils/formatted'
+import { formatToJson } from '../../utils/formatted'
 import { ToastManager, ToastContainer } from '../ToastManager/ToastManager'
 import { Modal } from '../Modal/Modal'
 import { ClearNotification } from '../ClearNotification/ClearNotification'
@@ -36,7 +36,7 @@ export const App = () => {
   }
 
   const handleFormatted = () => {
-    const result = formatJSON(value, tabValue)
+    const result = formatToJson(value, tabValue)
 
     if (result instanceof Error) {
       ToastManager.Error('Ошибка: ' + result.message)
@@ -132,6 +132,7 @@ export const App = () => {
             />
           </Modal>
           <ToastContainer className='toast-container' />
+          <span className={styles.about}>Обновлено: 16.07.24</span>
         </>
       )}
     </>
