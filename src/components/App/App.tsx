@@ -16,7 +16,6 @@ import { SplashScreen } from '../SplashScreen/SplashScreen'
 import { Toggle } from '../Toggle/Toggle'
 
 // todo
-// [ ] - Добавление кавычек перед парсингом не только на первом уровне
 // [ ] - Добавить сохранения введенного кода в LS
 // [ ] - Добавить настройки шрифта и тд, что будет сохраняться в localStorage
 
