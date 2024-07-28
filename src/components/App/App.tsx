@@ -38,7 +38,7 @@ interface EditorSettings {
 }
 
 export const App = () => {
-  const [showSplash, setShowSplash] = useState(true)
+  const [showSplashScreen, setShowSplashScreen] = useState(true)
   const [value, setValue] = useState('')
   const [isShowModalClear, setIsShowModalClear] = useState(false)
   const [isShowModalSettings, setIsShowModalSettings] = useState(false)
@@ -142,7 +142,7 @@ export const App = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowSplash(false)
+      setShowSplashScreen(false)
     }, 3000)
 
     return () => {
@@ -187,7 +187,7 @@ export const App = () => {
 
   return (
     <>
-      {showSplash ? (
+      {showSplashScreen ? (
         <SplashScreen />
       ) : (
         <>
@@ -217,12 +217,14 @@ export const App = () => {
                 currentMode={editorMode}
               />
             </Window>
-            <Toggle
-              isChecked={needUnquoteDataTypes}
-              handleChecked={() =>
-                setNeedUnquoteDataTypes(!needUnquoteDataTypes)
-              }
-            />
+            {editorMode === EEditorMode.JSON && (
+              <Toggle
+                isChecked={needUnquoteDataTypes}
+                handleChecked={() =>
+                  setNeedUnquoteDataTypes(!needUnquoteDataTypes)
+                }
+              />
+            )}
           </div>
           <Modal
             isOpen={isShowModalClear}
