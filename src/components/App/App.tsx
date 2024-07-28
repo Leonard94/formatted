@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import AceEditor from 'react-ace'
 import { Window } from '../Window/Window'
+import { UpdateNews } from '../UpdateNews/UpdateNews'
 import { Settings } from '../Settings/Settings'
 import { EditorTheme } from '../Theme/Theme'
 import { Editor } from '../Editor/Editor'
@@ -20,8 +21,6 @@ import { format } from 'sql-formatter'
 // todo
 // [ ] - Добавить сохранения введенного кода в LS
 // [ ] - Добавить настройки шрифта и тд, что будет сохраняться в localStorage
-
-// export type TEditorMode = 'json' | 'sql'
 
 export const App = () => {
   const [showSplash, setShowSplash] = useState(true)
@@ -165,7 +164,7 @@ export const App = () => {
             />
           </Modal>
           <ToastContainer className='toast-container' />
-          <span className={styles.about}>Обновлено: 18.07.24</span>
+          <UpdateNews />
         </>
       )}
     </>
