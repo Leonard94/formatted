@@ -165,7 +165,7 @@ export const App = () => {
             />
           </Modal>
           <ToastContainer className='toast-container' />
-          <span className={styles.about}>Обновлено: 16.07.24</span>
+          <span className={styles.about}>Обновлено: 18.07.24</span>
         </>
       )}
     </>
