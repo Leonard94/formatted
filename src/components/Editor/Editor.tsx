@@ -35,7 +35,7 @@ export const Editor = React.forwardRef<AceEditor, EditorProps>(
     return (
       <AceEditor
         ref={ref}
-        mode={currentMode}
+        mode={currentMode === EEditorMode.JSON ? 'json' : 'sql'}
         theme={theme}
         onChange={handleChangeInput}
         value={value}
