@@ -22,6 +22,16 @@ import { format } from 'sql-formatter'
 // [ ] - Добавить сохранения введенного кода в LS
 // [ ] - Добавить настройки шрифта и тд, что будет сохраняться в localStorage
 
+const LOCAL_STORAGE_KEY = 'editorSettings'
+interface EditorSettings {
+  theme: EditorTheme
+  value: string
+  fzValue: number
+  tabValue: TTab
+  needUnquoteDataTypes: boolean
+  editorMode: EEditorMode
+}
+
 export const App = () => {
   const [showSplash, setShowSplash] = useState(true)
   const [value, setValue] = useState('')
@@ -34,6 +44,7 @@ export const App = () => {
   const [currentTheme, setCurrentTheme] = useState<EditorTheme>(
     EditorTheme.Github
   )
+  const [isSettingsLoadedFromLS, setIsSettingsLoadedFromLS] = useState(false)
   const editorRef = useRef<AceEditor>(null)
 
   const handleChangeInput = (value: string) => {
@@ -106,6 +117,42 @@ export const App = () => {
   const handleEditorMode = (mode: EEditorMode) => {
     setEditorMode(mode)
   }
+
+  const saveToLocalStorage = (settings: EditorSettings) => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(settings))
+  }
+
+  const loadFromLocalStorage = (): EditorSettings | null => {
+    const savedSettings = localStorage.getItem(LOCAL_STORAGE_KEY)
+    return savedSettings ? JSON.parse(savedSettings) : null
+  }
+
+  useEffect(() => {
+    const savedSettings = loadFromLocalStorage()
+    if (savedSettings) {
+      setCurrentTheme(savedSettings.theme)
+      setValue(savedSettings.value)
+      setFzValue(savedSettings.fzValue)
+      setTabValue(savedSettings.tabValue)
+      setNeedUnquoteDataTypes(savedSettings.needUnquoteDataTypes)
+      setEditorMode(savedSettings.editorMode)
+    }
+    setIsSettingsLoadedFromLS(true)
+  }, [])
+
+  useEffect(() => {
+    if (isSettingsLoadedFromLS) {
+      const settings: EditorSettings = {
+        theme: currentTheme,
+        value,
+        fzValue,
+        tabValue,
+        needUnquoteDataTypes,
+        editorMode,
+      }
+      saveToLocalStorage(settings)
+    }
+  }, [currentTheme, value, fzValue, tabValue, needUnquoteDataTypes, editorMode, isSettingsLoadedFromLS])
 
   return (
     <>
