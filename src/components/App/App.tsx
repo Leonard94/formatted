@@ -15,6 +15,7 @@ import { TTab } from '../Settings/Settings'
 import { SplashScreen } from '../SplashScreen/SplashScreen'
 import { Toggle } from '../Toggle/Toggle'
 import { EEditorMode } from '../EditorMode/EditorMode'
+import { format } from 'sql-formatter'
 
 // todo
 // [ ] - Добавить сохранения введенного кода в LS
@@ -45,15 +46,23 @@ export const App = () => {
       return
     }
 
-    const result = formatToJson(value, tabValue)
+    if (editorMode === EEditorMode.JSON) {
+      const result = formatToJson(value, tabValue)
 
-    if (result instanceof Error) {
-      ToastManager.Error('Ошибка: ' + result.message)
-    } else {
+      if (result instanceof Error) {
+        ToastManager.Error('Ошибка: ' + result.message)
+      } else {
+        ToastManager.Success(getCompliments(EAction.Format))
+        setValue(
+          needUnquoteDataTypes ? handleRemoveQuoteDataTypes(result) : result
+        )
+      }
+    }
+
+    if (editorMode === EEditorMode.SQL) {
+      const formattedSQL = format(value)
+      handleChangeInput(formattedSQL)
       ToastManager.Success(getCompliments(EAction.Format))
-      setValue(
-        needUnquoteDataTypes ? handleRemoveQuoteDataTypes(result) : result
-      )
     }
   }
 
