@@ -29,6 +29,16 @@
       font-weight: 400;
       font-size: 14px;
       line-height: 140%;
+      padding-left: 10px;
+      position: relative;
+      padding-bottom: 4px;
+
+      &:before {
+        content: '•';
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
     }
 
     &:not(:last-child) {

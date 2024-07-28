@@ -18,9 +18,14 @@ import { Toggle } from '../Toggle/Toggle'
 import { EEditorMode } from '../EditorMode/EditorMode'
 import { format } from 'sql-formatter'
 
-// todo
-// [ ] - Добавить сохранения введенного кода в LS
-// [ ] - Добавить настройки шрифта и тд, что будет сохраняться в localStorage
+const DEFAULT_SETTINGS: EditorSettings = {
+  theme: EditorTheme.Github,
+  value: '',
+  fzValue: 12,
+  tabValue: 4,
+  needUnquoteDataTypes: false,
+  editorMode: EEditorMode.JSON,
+}
 
 const LOCAL_STORAGE_KEY = 'editorSettings'
 interface EditorSettings {
@@ -37,12 +42,16 @@ export const App = () => {
   const [value, setValue] = useState('')
   const [isShowModalClear, setIsShowModalClear] = useState(false)
   const [isShowModalSettings, setIsShowModalSettings] = useState(false)
-  const [fzValue, setFzValue] = useState<number>(12)
-  const [tabValue, setTabValue] = useState<TTab>(4)
-  const [needUnquoteDataTypes, setNeedUnquoteDataTypes] = useState(false)
-  const [editorMode, setEditorMode] = useState<EEditorMode>(EEditorMode.JSON)
+  const [fzValue, setFzValue] = useState<number>(DEFAULT_SETTINGS.fzValue)
+  const [tabValue, setTabValue] = useState<TTab>(DEFAULT_SETTINGS.tabValue)
+  const [needUnquoteDataTypes, setNeedUnquoteDataTypes] = useState(
+    DEFAULT_SETTINGS.needUnquoteDataTypes
+  )
+  const [editorMode, setEditorMode] = useState<EEditorMode>(
+    DEFAULT_SETTINGS.editorMode
+  )
   const [currentTheme, setCurrentTheme] = useState<EditorTheme>(
-    EditorTheme.Github
+    DEFAULT_SETTINGS.theme
   )
   const [isSettingsLoadedFromLS, setIsSettingsLoadedFromLS] = useState(false)
   const editorRef = useRef<AceEditor>(null)
@@ -104,16 +113,6 @@ export const App = () => {
     setCurrentTheme(newTheme)
   }
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false)
-    }, 3000)
-
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [])
-
   const handleEditorMode = (mode: EEditorMode) => {
     setEditorMode(mode)
   }
@@ -126,6 +125,30 @@ export const App = () => {
     const savedSettings = localStorage.getItem(LOCAL_STORAGE_KEY)
     return savedSettings ? JSON.parse(savedSettings) : null
   }
+
+  const resetToDefaultSettings = () => {
+    setIsShowModalSettings(false)
+
+    setCurrentTheme(DEFAULT_SETTINGS.theme)
+    setValue(DEFAULT_SETTINGS.value)
+    setFzValue(DEFAULT_SETTINGS.fzValue)
+    setTabValue(DEFAULT_SETTINGS.tabValue)
+    setNeedUnquoteDataTypes(DEFAULT_SETTINGS.needUnquoteDataTypes)
+    setEditorMode(DEFAULT_SETTINGS.editorMode)
+    saveToLocalStorage(DEFAULT_SETTINGS)
+
+    ToastManager.Success('Всё сбросили, теперь с чистого листа')
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false)
+    }, 3000)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
 
   useEffect(() => {
     const savedSettings = loadFromLocalStorage()
@@ -152,7 +175,15 @@ export const App = () => {
       }
       saveToLocalStorage(settings)
     }
-  }, [currentTheme, value, fzValue, tabValue, needUnquoteDataTypes, editorMode, isSettingsLoadedFromLS])
+  }, [
+    currentTheme,
+    value,
+    fzValue,
+    tabValue,
+    needUnquoteDataTypes,
+    editorMode,
+    isSettingsLoadedFromLS,
+  ])
 
   return (
     <>
@@ -208,6 +239,7 @@ export const App = () => {
               fzValue={fzValue}
               onTabChange={(value) => setTabValue(value)}
               onFzChange={(value) => setFzValue(value)}
+              handleResetToDefaultSettings={resetToDefaultSettings}
             />
           </Modal>
           <ToastContainer className='toast-container' />

@@ -8,6 +8,7 @@ type TProps = {
   tabValue: TTab
   onTabChange: (number: TTab) => void
   onFzChange: (number: number) => void
+  handleResetToDefaultSettings: () => void
 }
 
 const FONTS_SIZE_MIN = 10
@@ -23,12 +24,13 @@ export const Settings: React.FC<TProps> = ({
   tabValue,
   onTabChange,
   onFzChange,
+  handleResetToDefaultSettings,
 }) => {
   return (
     <div>
       <div className={styles.title}>Давай выберем настройки</div>
       <div className={styles.subtitle}>
-        Они не сохранятся при перезагрузке потому что мне было лень. А оно надо?
+        Они сохраняются даже при перезагрузке
       </div>
       <div className={styles.settings}>
         <div className={styles.settings__item}>
@@ -59,6 +61,12 @@ export const Settings: React.FC<TProps> = ({
           {tabValue === 2 && (
             <div className={styles.info}>А, ты из этих... ну ок</div>
           )}
+        </div>
+        <div className={styles.settings__item}>
+          <label>Всё надоело?</label>
+          <button className={styles.btn} onClick={handleResetToDefaultSettings}>
+            Сбрось это
+          </button>
         </div>
       </div>
     </div>

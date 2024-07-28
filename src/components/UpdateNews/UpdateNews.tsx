@@ -18,8 +18,10 @@ export const UpdateNews = () => {
           {newsTitle.map((title, index) => (
             <div key={index} className={styles.item}>
               <h2 className={styles.item__title}>{title}</h2>
-              {HISTORY_UPDATE[title].map((text) => (
-                <p className={styles.item__text}>- {text}</p>
+              {HISTORY_UPDATE[title].map((text, textIndex) => (
+                <p key={index + textIndex} className={styles.item__text}>
+                  {text}
+                </p>
               ))}
             </div>
           ))}
