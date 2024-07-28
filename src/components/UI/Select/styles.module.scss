@@ -1,4 +1,4 @@
-.themeContainer {
+.container {
   display: flex;
   align-items: center;
   margin: 10px 10px 10px 0;
@@ -10,15 +10,7 @@
   }
 }
 
-.themeLabel {
-  font-weight: 300;
-  font-weight: 10;
-  color: #892be28c;
-  margin-right: 10px;
-  background: inherit;
-}
-
-.themeSelect {
+.select {
   border-radius: 4px;
   background-color: white;
   color: #333;

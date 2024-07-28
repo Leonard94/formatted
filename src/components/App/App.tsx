@@ -14,10 +14,13 @@ import styles from './styles.module.scss'
 import { TTab } from '../Settings/Settings'
 import { SplashScreen } from '../SplashScreen/SplashScreen'
 import { Toggle } from '../Toggle/Toggle'
+import { EEditorMode } from '../EditorMode/EditorMode'
 
 // todo
 // [ ] - Добавить сохранения введенного кода в LS
 // [ ] - Добавить настройки шрифта и тд, что будет сохраняться в localStorage
+
+// export type TEditorMode = 'json' | 'sql'
 
 export const App = () => {
   const [showSplash, setShowSplash] = useState(true)
@@ -27,6 +30,7 @@ export const App = () => {
   const [fzValue, setFzValue] = useState<number>(12)
   const [tabValue, setTabValue] = useState<TTab>(4)
   const [needUnquoteDataTypes, setNeedUnquoteDataTypes] = useState(false)
+  const [editorMode, setEditorMode] = useState<EEditorMode>(EEditorMode.JSON)
   const [currentTheme, setCurrentTheme] = useState<EditorTheme>(
     EditorTheme.Github
   )
@@ -47,7 +51,9 @@ export const App = () => {
       ToastManager.Error('Ошибка: ' + result.message)
     } else {
       ToastManager.Success(getCompliments(EAction.Format))
-      setValue(needUnquoteDataTypes ? handleRemoveQuoteDataTypes(result) : result)
+      setValue(
+        needUnquoteDataTypes ? handleRemoveQuoteDataTypes(result) : result
+      )
     }
   }
 
@@ -89,6 +95,10 @@ export const App = () => {
     }
   }, [])
 
+  const handleEditorMode = (mode: EEditorMode) => {
+    setEditorMode(mode)
+  }
+
   return (
     <>
       {showSplash ? (
@@ -108,6 +118,8 @@ export const App = () => {
               handleClearEditor={() => setIsShowModalClear(true)}
               handleThemeChange={handleThemeChange}
               currentTheme={currentTheme}
+              currentEditorMode={editorMode}
+              handleModeChange={handleEditorMode}
             >
               <Editor
                 value={value}
@@ -116,11 +128,15 @@ export const App = () => {
                 theme={currentTheme}
                 fzValue={fzValue}
                 tabValue={tabValue}
+                currentMode={editorMode}
               />
             </Window>
-            <Toggle isChecked={needUnquoteDataTypes} handleChecked={() =>
-              setNeedUnquoteDataTypes(!needUnquoteDataTypes)
-            } />
+            <Toggle
+              isChecked={needUnquoteDataTypes}
+              handleChecked={() =>
+                setNeedUnquoteDataTypes(!needUnquoteDataTypes)
+              }
+            />
           </div>
           <Modal
             isOpen={isShowModalClear}

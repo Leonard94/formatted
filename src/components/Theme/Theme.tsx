@@ -1,4 +1,4 @@
-import styles from './styles.module.scss'
+import { Select } from '../UI/Select/Select'
 
 export enum EditorTheme {
   Github = 'github',
@@ -22,23 +22,16 @@ export const Theme: React.FC<ITheme> = ({
   currentTheme,
   handleThemeChange,
 }) => {
+  const options = Object.values(EditorTheme).map((theme) => ({
+    value: theme,
+    label: theme.charAt(0).toUpperCase() + theme.slice(1).replace('_', ' '),
+  }))
+
   return (
-    <div className={styles.themeContainer}>
-      {/* <label htmlFor='theme-select' className={styles.themeLabel}>
-        Тема редактора
-      </label> */}
-      <select
-        id='theme-select'
-        className={styles.themeSelect}
-        value={currentTheme}
-        onChange={(e) => handleThemeChange(e.target.value as EditorTheme)}
-      >
-        {Object.values(EditorTheme).map((theme) => (
-          <option key={theme} value={theme}>
-            {theme.charAt(0).toUpperCase() + theme.slice(1).replace('_', ' ')}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Select
+      value={currentTheme}
+      onChange={(value) => handleThemeChange(value as EditorTheme)}
+      options={options}
+    />
   )
 }
